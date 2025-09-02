@@ -1,12 +1,20 @@
 from io import BytesIO
+import os
 import pandas as pd
 
-from flask import Flask, request, send_file
+from flask import Flask, request, send_file, abort
 from flask_cors import CORS
 
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
+
+
+@app.before_request
+def check_api_key():
+    api_key = request.headers.get("X-API-KEY")
+    if api_key != os.environ.get("API_KEY"):
+        abort(403)
 
 
 @app.post("/map")
