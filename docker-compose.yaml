@@ -3,5 +3,7 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    expose:
+    ports:
       - "0:5000"
+    env_file:
+      - .dockerenv
