@@ -1,0 +1,16 @@
+map $http_x_api_key $allow_access {
+    default 0;
+    "${API_KEY}" 1;
+}
+
+server {
+    listen 8080 default_server;
+
+    location / {
+        if ($allow_access = 0) {
+            return 403;
+        }
+
+        proxy_pass http://api:5000;
+    }
+}
