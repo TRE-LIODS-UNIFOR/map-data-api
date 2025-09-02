@@ -58,6 +58,10 @@ def _map():
     with pd.ExcelWriter(buffer) as writer:
         for sheet_name, df in servidores.items():
             df.to_excel(writer, sheet_name=sheet_name, index=False)
+    with pd.ExcelWriter("output.xlsx") as writer:
+        for sheet_name, df in servidores.items():
+            df.to_excel(writer, sheet_name=sheet_name, index=False)
+    buffer.seek(0)
     return send_file(buffer, download_name="output.xlsx", as_attachment=True)
 
 
